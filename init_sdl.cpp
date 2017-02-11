@@ -2,11 +2,10 @@
 #include <cstdio>
 #include <cstdlib>
 #include <SDL2/SDL.h>
-#include <Personnage.h>
 
 using namespace std;
 
-int main(int argc, char const *argv[]) {
+int init(int argc, char const *argv[]) {
 
   bool quit = false;
   SDL_Window *pwindow;
@@ -21,9 +20,8 @@ int main(int argc, char const *argv[]) {
   SDL_FillRect(windowSurface, NULL, SDL_MapRGB(windowSurface->format, 192, 192, 192)); //Fill the surface white
 
   while(!quit){
-//code du jeu
     SDL_WaitEvent(&event);
-    SDL_UpdateWindowSurface(pwindow); //Update the surface
+    SDL_UpdateWindowSurface(pwindow); //Update the surfaced
     if(event.type == SDL_QUIT){
       SDL_DestroyWindow(pwindow);
       quit = true;
