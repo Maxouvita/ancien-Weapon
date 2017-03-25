@@ -25,3 +25,11 @@ Balle:
 -_velocité(x,y)
 -_durée de vie
 -_dégats
+
+
+You pass in the address of integers, receiving the x and y coordinates of the mouse's current state in them. SDL_GetMouseState has nothing to do with SDL_MouseMotionEvent.
+
+int x, y;
+Uint8 buttons = SDL_GetMouseState(&x, &y);
+// x and y contain the mouse coordinates
+// buttons contains bit values representing the state of the mouse buttons

@@ -24,8 +24,8 @@ private:
 
 public:
   Personnage(int,int,int);
-    void set_hp(int _hp);
-    void set_niveau(int _niveau);
-    void set_shield(int _shield);
+  void set_hp(int _hp);
+  void set_niveau(int _niveau);
+  void set_shield(int _shield);
 };
 #endif
