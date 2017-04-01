@@ -1,12 +1,22 @@
 #include <iostream>
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_image.h>
 #include "Personnage.h" //Ne pas oublier
 
 
 using namespace std;
 
-Personnage :: Personnage (int _hp,int _niveau,int _shield) : _hp(100) , _niveau(0), _shield(0){
 
+Personnage::Personnage() {
+  _hp = 100;
+  _niveau = 0;
+  _shield = 0;
+  _sprite_dflt; // = SDL_Surface("TEXTURES/astro"); //texture du perso (Default);
+  _sprite_r; // = SDL_Surface("TEXTURES/astroDroite");
+  _sprite_l; // = SDL_Surface("TEXTURES/astroGauche");
 };
+
+//~Personnage() {};
 
 void Personnage :: set_hp(int _hp){
   this->_hp = 100;

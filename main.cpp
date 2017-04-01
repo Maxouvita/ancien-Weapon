@@ -14,66 +14,13 @@
 #define WIDTH 1280
 #define HEIGHT 720
 
-
-int jeux() {
-
-	int mouse_x, mouse_y;
-	bool playButton = false;
-
-	SDL_Window *win = NULL;
-	SDL_Surface *imgBackground = NULL, *psurface = NULL, *imgPointer = NULL;
-	SDL_Rect background, pointer;
-
-	background.x = 0;
-	background.y = 0;
-
-
-	if (SDL_Init(SDL_INIT_EVERYTHING) < 0)
-			return 1;
-
-
-	win = SDL_CreateWindow("Weapon", 1280, 720, WIDTH, HEIGHT, SDL_WINDOW_OPENGL);
-	psurface = SDL_GetWindowSurface(win);
-	SDL_ShowCursor(SDL_DISABLE);
-
-	imgBackground = IMG_Load(IMG_PATH_GAME);
-
-	SDL_Event e;
-	bool quit = false;
-	while (!quit) {
-
-		while ( SDL_PollEvent(&e) ) {
-			if ((e.type == SDL_QUIT) || (e.type == SDL_KEYUP && e.key.keysym.sym == SDLK_ESCAPE)){
-				quit = true;
-			}
-
-
-      if(e.type == SDL_MOUSEMOTION)
-      {
-          SDL_GetMouseState(&mouse_x,&mouse_y);
-      }
-			pointer.x = mouse_x - 26;
-			pointer.y = mouse_y - 26;
-			SDL_BlitSurface(imgPointer, NULL, psurface, &pointer);
-		}
-		SDL_FillRect(psurface, NULL, SDL_MapRGB(psurface->format, 0, 0, 0 ));
-		SDL_BlitSurface(imgBackground, NULL, psurface, &background);
-		SDL_UpdateWindowSurface(win);
-	}
-
-	SDL_DestroyWindow(win);
-
-	return 0;
-}
-
-int menu() {
+int menu(SDL_Window *win) {
 
 	int mouse_x, mouse_y;
 	bool playButton = false;
 
-	SDL_Window *win = NULL;
-	SDL_Surface *imgBackground = NULL, *imgBoutonPlay = NULL, *psurface = NULL, *imgBullePlay = NULL, *imgPointer = NULL, *imgLogo = NULL;
-	SDL_Rect background,boutonPlay,boutonQuit,bullePlay,pointer,Logo;
+	SDL_Surface *imgBackground = NULL, *imgBoutonPlay = NULL, *psurface = NULL, *imgBullePlay = NULL, *imgCursor = NULL, *imgLogo = NULL;
+	SDL_Rect background,boutonPlay,boutonQuit,bullePlay,cursor,Logo;
 
 	background.x = 0;
 	background.y = 0;
@@ -91,11 +38,11 @@ int menu() {
 	bullePlay.w = 110;
 	bullePlay.h = 57;
 
-	pointer.w = 54;
-	pointer.h = 54;
+	cursor.w = 54;
+	cursor.h = 54;
 
 	Logo.x = 529;
-  Logo.y = 25;
+	Logo.y = 25;
 
 
 	if (SDL_Init(SDL_INIT_EVERYTHING) < 0){
@@ -104,12 +51,11 @@ int menu() {
 
 	win = SDL_CreateWindow("Weapon", 1280, 720, WIDTH, HEIGHT, SDL_WINDOW_OPENGL);
 	psurface = SDL_GetWindowSurface(win);
-	SDL_ShowCursor(SDL_DISABLE);
 
 	imgBackground = IMG_Load(IMG_PATH_MENU);
-  imgBoutonPlay = IMG_Load(IMG_GUN);
+	imgBoutonPlay = IMG_Load(IMG_GUN);
 	imgBullePlay = IMG_Load(IMG_POP_UP_PLAY);
-	imgPointer = IMG_Load(IMG_CURSOR);
+	imgCursor = IMG_Load(IMG_CURSOR);
 	imgLogo = IMG_Load(IMG_LOGO);
 
 	SDL_Event e;
@@ -122,10 +68,10 @@ int menu() {
 				quit = true;
 			}
 
-      if(e.type == SDL_MOUSEMOTION)
-      {
-          SDL_GetMouseState(&mouse_x,&mouse_y);
-      }
+			if(e.type == SDL_MOUSEMOTION)
+			{
+				SDL_GetMouseState(&mouse_x,&mouse_y);
+			}
 			if (mouse_x > 500 && mouse_x < 828 && mouse_y > 222 && mouse_y < 310)	{
 				playButton = true;
 			}else
@@ -133,18 +79,16 @@ int menu() {
 				playButton = true;
 			}else
 			playButton = false;
-			pointer.x = mouse_x - 26;
-			pointer.y = mouse_y - 26;
-			SDL_BlitSurface(imgPointer, NULL, psurface, &pointer);
-
+			cursor.x = mouse_x - 26;
+			cursor.y = mouse_y - 26;
 		}
-		 if (playButton && e.button.button == SDL_BUTTON_LEFT){
-			 jeux();
-		 }
+		if (playButton && e.button.button == SDL_BUTTON_LEFT){
+			return 1;
+		}
 		SDL_FillRect(psurface, NULL, SDL_MapRGB(psurface->format, 0, 0, 0 ));
 		SDL_BlitSurface(imgBackground, NULL, psurface, &background);
 		SDL_BlitSurface(imgBoutonPlay, NULL, psurface, &boutonPlay);
-		SDL_BlitSurface(imgPointer, NULL, psurface, &pointer);
+		SDL_BlitSurface(imgCursor, NULL, psurface, &cursor);
 		SDL_BlitSurface(imgLogo, NULL, psurface, &Logo);
 		if(playButton){
 			SDL_BlitSurface(imgBullePlay, NULL, psurface, &bullePlay);
@@ -156,9 +100,72 @@ int menu() {
 
 	return 0;
 }
+int play(SDL_Window *win) {
+
+	float v_x, v_y;
+	int mouse_x, mouse_y;
+	bool quit = false;
+
+	SDL_Event e;
+	SDL_Surface *imgLv1 = NULL, *psurface = NULL, *imgCursor = NULL, *imgPos = NULL;
+	SDL_Rect Lv1, cursor, pos;
+
+	Personnage perso();
+
+	pos.x = 0;
+	pos.y = 0;
+	Lv1.x = 0;
+	Lv1.y = 0;
+
+	psurface = SDL_GetWindowSurface(win);
+	imgLv1 = IMG_Load("/TEXTURES/Level_1-2.png");
+	imgCursor = IMG_Load(IMG_CURSOR);
+	win = SDL_CreateWindow("Weapon", 1280, 720, WIDTH, HEIGHT, SDL_WINDOW_OPENGL);
+
+	while (!quit) {
+		if(SDL_PollEvent(&e)) {
+			if ((e.type == SDL_QUIT) || (e.type == SDL_KEYUP && e.key.keysym.sym == SDLK_ESCAPE)){
+				quit = true;
+			}
+
+      if(e.type == SDL_MOUSEMOTION){
+          SDL_GetMouseState(&mouse_x,&mouse_y);
+					cursor.x = mouse_x - 26;
+					cursor.y = mouse_y - 26;
+					SDL_BlitSurface(imgCursor, NULL, psurface, &cursor);
+      }
+
+			if(e.type == SDL_KEYUP && e.key.keysym.sym == SDLK_RIGHT){
+				v_x = 2;
+
+			}
+			if(e.type == SDL_KEYUP && e.key.keysym.sym == SDLK_LEFT){
+				v_x = -2;
+
+			}
+			if(e.type == SDL_KEYUP && e.key.keysym.sym == SDLK_UP){
+				v_y = -10;
+
+			}
+			if(v_x > 0){
+			}
+		}
+		SDL_BlitSurface(imgLv1, NULL, psurface, &Lv1);
+		SDL_UpdateWindowSurface(win);
+	}
+	SDL_DestroyWindow(win);
+	return 0;
+}
+
 
 int main () {
-	menu();
+
+	SDL_Window *win = NULL;
+
+	SDL_Init(SDL_INIT_EVERYTHING);
+	SDL_ShowCursor(SDL_DISABLE);
+
+	play(win);
 
 	return 0;
 }
