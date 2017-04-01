@@ -1,14 +1,13 @@
-
-#include <stdio.h>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include "Personnage.h"
+#include "utils.h"
 
-#define IMG_PATH_GAME "TEXTURES/LEVEL 1 et 2.jpg"
-#define IMG_PATH_MENU "TEXTURES/menu principal.jpg"
-#define IMG_GUN "TEXTURES/Bouton Jouer.png"
+#define IMG_PATH_GAME "./TEXTURES/Level_1-2.png"
+#define IMG_PATH_MENU "./TEXTURES/menu principal.jpg"
+#define IMG_GUN "./TEXTURES/Bouton Jouer.png"
 #define IMG_POP_UP_PLAY "./TEXTURES/Bulle Jouer.png"
-#define IMG_LOGO "TEXTURES/Logo.png"
+#define IMG_LOGO "./TEXTURES/Logo.png"
 #define IMG_CURSOR "./TEXTURES/Viseur.png"
 
 #define WIDTH 1280
@@ -49,7 +48,7 @@ int menu(SDL_Window *win) {
 		return 1;
 	}
 
-	win = SDL_CreateWindow("Weapon", 1280, 720, WIDTH, HEIGHT, SDL_WINDOW_OPENGL);
+	win = SDL_CreateWindow("W34P0N", 1280, 720, WIDTH, HEIGHT, SDL_WINDOW_OPENGL);
 	psurface = SDL_GetWindowSurface(win);
 
 	imgBackground = IMG_Load(IMG_PATH_MENU);
@@ -62,42 +61,39 @@ int menu(SDL_Window *win) {
 	bool quit = false;
 
 	while (!quit) {
+		while (SDL_PollEvent(&e)) {
 
-		while ( SDL_PollEvent(&e) ) {
-			if ((e.type == SDL_QUIT) || (e.type == SDL_KEYUP && e.key.keysym.sym == SDLK_ESCAPE)){
+			if((e.type == SDL_QUIT) || (e.type == SDL_KEYUP && e.key.keysym.sym == SDLK_ESCAPE)){
 				quit = true;
 			}
-
-			if(e.type == SDL_MOUSEMOTION)
-			{
+			if(e.type == SDL_MOUSEMOTION){
 				SDL_GetMouseState(&mouse_x,&mouse_y);
+				cursor.x = mouse_x - 26;
+				cursor.y = mouse_y - 26;
 			}
-			if (mouse_x > 500 && mouse_x < 828 && mouse_y > 222 && mouse_y < 310)	{
+			if ((mouse_x > 500 && mouse_x < 828 && mouse_y > 222 && mouse_y < 310) || (mouse_x > 622 && mouse_x < 685 && mouse_y > 309 && mouse_y < 350)) {
 				playButton = true;
-			}else
-			if (mouse_x > 622 && mouse_x < 685 && mouse_y > 309 && mouse_y < 350)	{
-				playButton = true;
-			}else
-			playButton = false;
-			cursor.x = mouse_x - 26;
-			cursor.y = mouse_y - 26;
+			} else {
+				playButton = false;
+			}
+			if (playButton && e.button.button == SDL_BUTTON_LEFT){
+				return 1;
+			}
+
+			SDL_FillRect(psurface, NULL, SDL_MapRGB(psurface->format, 0, 0, 0 ));
+			SDL_BlitSurface(imgBackground, NULL, psurface, &background);
+			SDL_BlitSurface(imgBoutonPlay, NULL, psurface, &boutonPlay);
+			SDL_BlitSurface(imgCursor, NULL, psurface, &cursor);
+			SDL_BlitSurface(imgLogo, NULL, psurface, &Logo);
+
+			if(playButton){
+				SDL_BlitSurface(imgBullePlay, NULL, psurface, &bullePlay);
+			}
+
+			SDL_UpdateWindowSurface(win);
 		}
-		if (playButton && e.button.button == SDL_BUTTON_LEFT){
-			return 1;
-		}
-		SDL_FillRect(psurface, NULL, SDL_MapRGB(psurface->format, 0, 0, 0 ));
-		SDL_BlitSurface(imgBackground, NULL, psurface, &background);
-		SDL_BlitSurface(imgBoutonPlay, NULL, psurface, &boutonPlay);
-		SDL_BlitSurface(imgCursor, NULL, psurface, &cursor);
-		SDL_BlitSurface(imgLogo, NULL, psurface, &Logo);
-		if(playButton){
-			SDL_BlitSurface(imgBullePlay, NULL, psurface, &bullePlay);
-		}
-		SDL_UpdateWindowSurface(win);
+		SDL_DestroyWindow(win);
 	}
-
-	SDL_DestroyWindow(win);
-
 	return 0;
 }
 int play(SDL_Window *win) {
@@ -107,20 +103,22 @@ int play(SDL_Window *win) {
 	bool quit = false;
 
 	SDL_Event e;
-	SDL_Surface *imgLv1 = NULL, *psurface = NULL, *imgCursor = NULL, *imgPos = NULL;
-	SDL_Rect Lv1, cursor, pos;
+	SDL_Surface *imgLevel1 = NULL, *psurface = NULL, *imgCursor = NULL, *imgPos = NULL;
+	SDL_Rect rectLevel1, cursor, pos;
 
 	Personnage perso();
 
 	pos.x = 0;
 	pos.y = 0;
-	Lv1.x = 0;
-	Lv1.y = 0;
+	cursor.w = 54;
+	cursor.h = 54;
+	rectLevel1.x = 0;
+	rectLevel1.y = 0;
 
-	psurface = SDL_GetWindowSurface(win);
-	imgLv1 = IMG_Load("/TEXTURES/Level_1-2.png");
-	imgCursor = IMG_Load(IMG_CURSOR);
 	win = SDL_CreateWindow("Weapon", 1280, 720, WIDTH, HEIGHT, SDL_WINDOW_OPENGL);
+	psurface = SDL_GetWindowSurface(win);
+	getImg(imgLevel1, IMG_PATH_GAME);
+	getImg(imgCursor, IMG_CURSOR);
 
 	while (!quit) {
 		if(SDL_PollEvent(&e)) {
@@ -148,9 +146,11 @@ int play(SDL_Window *win) {
 
 			}
 			if(v_x > 0){
+				//...
 			}
 		}
-		SDL_BlitSurface(imgLv1, NULL, psurface, &Lv1);
+
+		SDL_BlitSurface(imgLevel1, NULL, psurface, &rectLevel1);
 		SDL_UpdateWindowSurface(win);
 	}
 	SDL_DestroyWindow(win);
@@ -164,8 +164,8 @@ int main () {
 
 	SDL_Init(SDL_INIT_EVERYTHING);
 	SDL_ShowCursor(SDL_DISABLE);
-
-	play(win);
+	//menu(win);
+	//play(win);
 
 	return 0;
 }
