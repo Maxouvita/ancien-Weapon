@@ -104,13 +104,15 @@ int menu(SDL_Window *win) {
 ////////////////////////////////////////////////////////////////////////////////
 int play(SDL_Window *win) {
 
+	SDL_ShowCursor(SDL_ENABLE);
+
 	float v_x, v_y;
 	int mouse_x, mouse_y;
 	bool quit = false;
 
 	SDL_Event e;
 	SDL_Surface *imgLevel1 = NULL, *psurface = NULL, *imgCursor = NULL, *imgPos = NULL, *imgPlayer = NULL,  *imgPlayerD = NULL,  *imgPlayerG = NULL;
-	SDL_Rect rectLevel1, cursor, pos, rectPlayer, rectPlayerD, rectPlayerG;
+	SDL_Rect rectLevel1, cursor, pos, rectPlayer;
 
 	Personnage perso();
 
@@ -120,18 +122,10 @@ int play(SDL_Window *win) {
 	cursor.h = 54;
 	rectLevel1.x = 0;
 	rectLevel1.y = 0;
-	rectPlayer. = ; //remplir avec x,y,w et h pour player, playerD et playerG.
-	rectPlayer. = ;
-	rectPlayer. = ;
-	rectPlayer. = ;
-	rectPlayer. = ;
-	rectPlayer. = ;
-	rectPlayer. = ;
-	rectPlayer. = ;
-	rectPlayer. = ;
-	rectPlayer. = ;
-	rectPlayer. = ;
-	rectPlayer. = ;
+	rectPlayer.x = 640; //remplir avec x,y,w et h pour player.
+	rectPlayer.y = 652;
+	rectPlayer.w = 13;
+	rectPlayer.h = 34;
 
 	win = SDL_CreateWindow("Weapon - game", 1280, 720, WIDTH, HEIGHT, SDL_WINDOW_OPENGL);
 	psurface = SDL_GetWindowSurface(win);
@@ -141,22 +135,23 @@ int play(SDL_Window *win) {
 	imgPlayerD = IMG_Load(IMG_PLAYERD);
 	imgPlayerG = IMG_Load(IMG_PLAYERG);
 
-	SDL_BlitSurface(imgPerso, NULL, psurface, &rectLevel1);
+	SDL_BlitSurface(imgPlayer, NULL, psurface, &rectLevel1);
 
 	while (!quit) {
 		while (SDL_PollEvent(&e) && !quit) {
 			if((e.type == SDL_QUIT) || (e.type == SDL_KEYUP && e.key.keysym.sym == SDLK_ESCAPE)){
 				quit = true;
 			}
-			int sens = 1
-			int tab_x[10] = {1, 1280};
-			int tab_y[10] = {50, 0};
+			SDL_BlitSurface(imgCursor, NULL, psurface, &cursor);
+
+			int sens = 1;
+			int tab_x[] = {1, 1280, 0, 0};
+			int tab_y[] = {500, 0, 720, 720};
 
       if(e.type == SDL_MOUSEMOTION){
           SDL_GetMouseState(&mouse_x,&mouse_y);
 					cursor.x = mouse_x - 26;
 					cursor.y = mouse_y - 26;
-					SDL_BlitSurface(imgCursor, NULL, psurface, &cursor);
       }
 			if(e.type == SDL_KEYUP && e.key.keysym.sym == SDLK_RIGHT){
 				v_x = 2;
@@ -173,33 +168,36 @@ int play(SDL_Window *win) {
 			if(e.type == SDL_KEYUP && e.key.keysym.sym == SDLK_UP){
 				v_y = -10;
 			}
-			if (v_y > 0) {
+			v_x = v_x / 1.01;
+			if (v_y < 0) {
 				v_y = v_y + 0,05;
 			}
-			if (y >= 1280 - 68) {
-				y = 1280 - 68;
+			if (rectPlayer.y >= 652) {
+				rectPlayer.y = 652;
 			}
 			for (int i = 1; i <= 2; i = i+2) {
-				if ((tab_y[i] >= y+68+2) && (tab_y[i] <= y+68-2) && (tab_x[i] >= x+26/2) && (tab_x[i+1] <= x+26/2)){
-					y = tab_y[i] + 68;
-					v_y = 0
+				if ((tab_y[i] >= rectPlayer.y+68+2) && (tab_y[i] <= rectPlayer.y+68-2) && (tab_x[i] >= rectPlayer.x+(26/2)) && (tab_x[i+1] <= rectPlayer.x+(26/2))){
+					rectPlayer.y = tab_y[i] + 68;
+					v_y = 0;
 				}
+				rectPlayer.x = rectPlayer.x + v_x;
+				rectPlayer.y = rectPlayer.y + v_y;
 			}
 			if (sens == 1) {
 				SDL_BlitSurface(imgPlayer, NULL, psurface, &rectPlayer);
 			}
 			if (sens == 2) {
-				SDL_BlitSurface(imgPlayerD, NULL, psurface, &rectPlayerD);
+				SDL_BlitSurface(imgPlayerD, NULL, psurface, &rectPlayer);
 			}
 			if (sens == 3) {
-				SDL_BlitSurface(imgPlayerG, NULL, psurface, &rectPlayerG);
+				SDL_BlitSurface(imgPlayerG, NULL, psurface, &rectPlayer);
 			}
 
 
 
 
 		}
-
+		SDL_BlitSurface(imgCursor, NULL, psurface, &cursor);
 		SDL_BlitSurface(imgLevel1, NULL, psurface, &rectLevel1);
 		SDL_UpdateWindowSurface(win);
 	}

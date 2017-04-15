@@ -1,3 +1,4 @@
+/*
 #include <iostream>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
@@ -31,3 +32,4 @@ void Monstre :: set_x(int _x){
 void Monstre :: set_y(int _y){
   this->_y = 0;
 }
+*/
