@@ -3,6 +3,7 @@
 #include <cassert>
 #include "Personnage.h"
 #include "utils.h"
+#include "main.h"
 
 #define IMG_PATH_GAME "./TEXTURES/Level_1-2.png"
 #define IMG_PATH_MENU "./TEXTURES/menu principal.jpg"
@@ -79,22 +80,22 @@ int menu(SDL_Window *win) {
 				cursor.x = mouse_x - 26;
 				cursor.y = mouse_y - 26;
 			}
+
+
 			if ((mouse_x > 500 && mouse_x < 828 && mouse_y > 222 && mouse_y < 310) || (mouse_x > 622 && mouse_x < 685 && mouse_y > 309 && mouse_y < 350)) {
 				playButton = true;
-			} else {
-				playButton = false;
 			}
+
+
 			if (playButton && e.button.button == SDL_BUTTON_LEFT){
-				SDL_DestroyWindow(win);
-				return 1;
+				play(win);
 			}
+
+
 			SDL_BlitSurface(imgBackground, NULL, psurface, &background);
 			SDL_BlitSurface(imgBoutonPlay, NULL, psurface, &boutonPlay);
 			SDL_BlitSurface(imgCursor, NULL, psurface, &cursor);
 			SDL_BlitSurface(imgLogo, NULL, psurface, &Logo);
-			if(playButton){
-				SDL_BlitSurface(imgBullePlay, NULL, psurface, &bullePlay);
-			}
 			SDL_UpdateWindowSurface(win);
 		}
 	}
@@ -104,20 +105,19 @@ int menu(SDL_Window *win) {
 ////////////////////////////////////////////////////////////////////////////////
 int play(SDL_Window *win) {
 
-	SDL_ShowCursor(SDL_ENABLE);
+	SDL_ShowCursor(SDL_DISABLE);
 
 	float v_x, v_y;
 	int mouse_x, mouse_y;
 	bool quit = false;
 
 	SDL_Event e;
-	SDL_Surface *imgLevel1 = NULL, *psurface = NULL, *imgCursor = NULL, *imgPos = NULL, *imgPlayer = NULL,  *imgPlayerD = NULL,  *imgPlayerG = NULL;
-	SDL_Rect rectLevel1, cursor, pos, rectPlayer;
+	SDL_Surface *imgLevel1 = NULL, *psurface = NULL, *imgCursor = NULL, *imgPlayer = NULL,  *imgPlayerD = NULL,  *imgPlayerG = NULL;
+	SDL_Rect rectLevel1, cursor, rectPlayer, PlayerD ,PlayerG ;
 
 	Personnage perso();
 
-	pos.x = 0; //coord perso
-	pos.y = 0; //coord perso (w=34*2)
+
 	cursor.w = 54;
 	cursor.h = 54;
 	rectLevel1.x = 0;
@@ -127,6 +127,10 @@ int play(SDL_Window *win) {
 	rectPlayer.w = 13;
 	rectPlayer.h = 34;
 
+	int sens = 1;
+	int tab_x[] = {1, 1280, 0, 0};
+	int tab_y[] = {500, 0, 720, 720};
+
 	win = SDL_CreateWindow("Weapon - game", 1280, 720, WIDTH, HEIGHT, SDL_WINDOW_OPENGL);
 	psurface = SDL_GetWindowSurface(win);
 	imgLevel1 = IMG_Load(IMG_PATH_GAME);
@@ -135,18 +139,16 @@ int play(SDL_Window *win) {
 	imgPlayerD = IMG_Load(IMG_PLAYERD);
 	imgPlayerG = IMG_Load(IMG_PLAYERG);
 
-	SDL_BlitSurface(imgPlayer, NULL, psurface, &rectLevel1);
 
+
+	SDL_BlitSurface(imgLevel1, NULL, psurface, &rectLevel1);
+	SDL_BlitSurface(imgPlayer, NULL, psurface, &rectPlayer);
 	while (!quit) {
 		while (SDL_PollEvent(&e) && !quit) {
 			if((e.type == SDL_QUIT) || (e.type == SDL_KEYUP && e.key.keysym.sym == SDLK_ESCAPE)){
 				quit = true;
 			}
 			SDL_BlitSurface(imgCursor, NULL, psurface, &cursor);
-
-			int sens = 1;
-			int tab_x[] = {1, 1280, 0, 0};
-			int tab_y[] = {500, 0, 720, 720};
 
       if(e.type == SDL_MOUSEMOTION){
           SDL_GetMouseState(&mouse_x,&mouse_y);
@@ -155,25 +157,35 @@ int play(SDL_Window *win) {
       }
 			if(e.type == SDL_KEYUP && e.key.keysym.sym == SDLK_RIGHT){
 				v_x = 2;
-				SDL_BlitSurface(imgPlayerD, NULL, psurface, &rectPlayer);
+				printf("RIGHT\n");
+				SDL_BlitSurface(imgPlayerD, NULL, psurface, &PlayerD);
 			}else{
 				SDL_BlitSurface(imgPlayer, NULL, psurface, &rectPlayer);
 			}
 			if(e.type == SDL_KEYUP && e.key.keysym.sym == SDLK_LEFT){
 				v_x = -2;
-				SDL_BlitSurface(imgPlayerG, NULL, psurface, &rectPlayer);
+				SDL_BlitSurface(imgPlayerG, NULL, psurface, &PlayerG);
+				printf("LEFT\n");
 			}else{
 				SDL_BlitSurface(imgPlayer, NULL, psurface, &rectPlayer);
 			}
 			if(e.type == SDL_KEYUP && e.key.keysym.sym == SDLK_UP){
 				v_y = -10;
+				printf("UP\n");
 			}
-			v_x = v_x / 1.01;
+			printf("%d\n", rectPlayer.y);
+			v_x = v_x * 0.99;
 			if (v_y < 0) {
-				v_y = v_y + 0,05;
+				v_y = v_y + 0,01;
 			}
 			if (rectPlayer.y >= 652) {
 				rectPlayer.y = 652;
+			}
+			if (rectPlayer.x <= 1) {
+				rectPlayer.x = 2;
+			}
+			if (rectPlayer.x >= 1252) {
+				rectPlayer.x = 1251;
 			}
 			for (int i = 1; i <= 2; i = i+2) {
 				if ((tab_y[i] >= rectPlayer.y+68+2) && (tab_y[i] <= rectPlayer.y+68-2) && (tab_x[i] >= rectPlayer.x+(26/2)) && (tab_x[i+1] <= rectPlayer.x+(26/2))){
@@ -182,15 +194,6 @@ int play(SDL_Window *win) {
 				}
 				rectPlayer.x = rectPlayer.x + v_x;
 				rectPlayer.y = rectPlayer.y + v_y;
-			}
-			if (sens == 1) {
-				SDL_BlitSurface(imgPlayer, NULL, psurface, &rectPlayer);
-			}
-			if (sens == 2) {
-				SDL_BlitSurface(imgPlayerD, NULL, psurface, &rectPlayer);
-			}
-			if (sens == 3) {
-				SDL_BlitSurface(imgPlayerG, NULL, psurface, &rectPlayer);
 			}
 
 

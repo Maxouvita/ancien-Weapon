@@ -20,6 +20,13 @@ private:
   int _min_hitbox_y;//Coords min Y
   int _max_hitbox_x;//Coords max X
   int _max_hitbox_y;//Coords max Y
+  enum Orientation {
+    DFLT  = 0,
+    RIGHT = 1,
+    LEFT  = 2,
+    NUM   = 3
+  };
+  enum Orientation _orientation;
 
   bool _sprite_dflt;
   bool _sprite_r;
@@ -28,6 +35,13 @@ private:
 public:
   Personnage();
   //~Personnage();
+
+  enum Orientation get_orientation();
+  int get_hp(int _hp);
+  int get_niveau(int _niveau);
+  int get_shield(int _shield);
+
+  void set_orientation(int _orientation);
   void set_hp(int _hp);
   void set_niveau(int _niveau);
   void set_shield(int _shield);
