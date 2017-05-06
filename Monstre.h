@@ -23,10 +23,11 @@ private:
   bool _sprite_l;
 
 public:
-  Monstre::Monstre(int _niveau,int _shield,int _x,int _y);
-  void Monstre::niveau(int _niveau);
-  void Monstre::shield(int _shield);
-  void Monstre::set_pos_x(int _x);
-  void Monstre::set_pos_y(int _y);
+  Monstre();
+  Monstre(int _niveau,int _shield,int _x,int _y);
+  void set_niveau(int _niveau);
+  void set_shield(int _shield);
+  void set_x(int _x);
+  void set_y(int _y);
 };
 #endif
