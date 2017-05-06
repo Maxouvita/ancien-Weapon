@@ -1,6 +1,6 @@
 #ifndef DEF_MONSTRE
 #define DEF_MONSTRE
-#include <string.h>
+#include <string>
 
 class Monstre
 {
@@ -23,10 +23,10 @@ private:
   bool _sprite_l;
 
 public:
-  Monstre();
-  void niveau(int _niveau);
-  void shield(int _shield);
-  void x(int _x);
-  void y(int _x);
+  Monstre::Monstre(int _niveau,int _shield,int _x,int _y);
+  void Monstre::niveau(int _niveau);
+  void Monstre::shield(int _shield);
+  void Monstre::set_pos_x(int _x);
+  void Monstre::set_pos_y(int _y);
 };
 #endif
