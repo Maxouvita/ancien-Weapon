@@ -1,6 +1,8 @@
 #ifndef DEF_PERSONNAGE
 #define DEF_PERSONNAGE
+
 #include <string.h>
+#include "utils.h"
 
 class Personnage
 {
@@ -20,6 +22,9 @@ private:
   int _min_hitbox_y;//Coords min Y
   int _max_hitbox_x;//Coords max X
   int _max_hitbox_y;//Coords max Y
+
+  SDL_Surface *_sprite_dflt, *_sprite_l, *_sprite_r;
+
   enum Orientation {
     DFLT  = 0,
     RIGHT = 1,
@@ -28,9 +33,6 @@ private:
   };
   enum Orientation _orientation;
 
-  bool _sprite_dflt;
-  bool _sprite_r;
-  bool _sprite_l;
 
 public:
   Personnage();
