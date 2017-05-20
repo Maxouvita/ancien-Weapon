@@ -38,6 +38,7 @@ public:
   int get_hp();
   int get_niveau();
   int get_shield();
+
   int get_jump_height();
   int get_width();
   int get_weight();
@@ -46,16 +47,16 @@ public:
   int get_v_x();
   int get_v_y();
 
-  void set_orientation(int _orientation);
-  void set_hp(int _hp);
-  void set_niveau(int _niveau);
-  void set_shield(int _shield);
-  void set_jump_height(int _jump_height);
-  void set_width(int _width);
-  void set_weight(int _weight);
-  void set_x(int _x);
-  void set_y(int _y);
-  void set_v_x(int _v_x);
-  void set_v_y(int _v_y);
+  void set_orientation(int orientation);
+  void set_hp(int hp);
+  void set_niveau(int niveau);
+  void set_shield(int shield);
+  void set_jump_height(int jump_height);
+  void set_width(int width);
+  void set_weight(int weight);
+  void set_x(int x);
+  void set_y(int y);
+  void set_v_x(int v_x);
+  void set_v_y(int v_y);
 };
 #endif
