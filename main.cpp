@@ -42,6 +42,8 @@ int menu(SDL_Window *win) {
 	assert(win = SDL_CreateWindow("WEAP0N", 1280, 720, WIDTH, HEIGHT, SDL_WINDOW_OPENGL));
 	assert(psurface = SDL_GetWindowSurface(win));
 
+	SDL_ShowCursor(SDL_DISABLE);
+
 	imgBackground = IMG_Load(IMG_PATH_MENU);
 	imgBoutonPlay = IMG_Load(IMG_GUN);
 	imgBullePlay = IMG_Load(IMG_POP_UP_PLAY);
@@ -61,12 +63,23 @@ int menu(SDL_Window *win) {
 				cursor.x = mouse_x - 26;
 				cursor.y = mouse_y - 26;
 			}
-			if ((mouse_x > 500 && mouse_x < 828 && mouse_y > 222 && mouse_y < 310) || (mouse_x > 622 && mouse_x < 685 && mouse_y > 309 && mouse_y < 350)) {
+			if ((
+					mouse_x > 500 &&
+					mouse_x < 828 &&
+					mouse_y > 222 &&
+					mouse_y < 310
+				) || (
+					mouse_x > 622 &&
+					mouse_x < 685 &&
+					mouse_y > 309 &&
+					mouse_y < 350
+				)) {
 				playButton = true;
 			} else {
 				playButton = false;
 			}
-			if (playButton && e.button.button == SDL_BUTTON_LEFT){
+
+			if (playButton && e.type == SDL_MOUSEBUTTONDOWN && e.button.button == SDL_BUTTON_LEFT){
 				quit = true;
 			}
 
@@ -80,12 +93,11 @@ int menu(SDL_Window *win) {
 			SDL_UpdateWindowSurface(win);
 		}
 	}
+	SDL_DestroyWindow(win);
 	return 0;
 }
 
 int play(SDL_Window *win) {
-
-	SDL_ShowCursor(SDL_DISABLE);
 
 	float v_x, v_y;
 	int mouse_x, mouse_y;
@@ -109,9 +121,11 @@ int play(SDL_Window *win) {
 	int tab_x[] = {1, 1280, 0, 0};
 	int tab_y[] = {500, 0, 720, 720};
 
-	//assert(win = SDL_CreateWindow("Weapon - game", 1280, 720, WIDTH, HEIGHT, SDL_WINDOW_OPENGL));
-	assert(SDL_CreateWindowFrom(win));
+	assert(win = SDL_CreateWindow("Weapon - game", 1280, 720, WIDTH, HEIGHT, SDL_WINDOW_OPENGL));
 	assert(psurface = SDL_GetWindowSurface(win));
+
+	SDL_ShowCursor(SDL_DISABLE);
+
 	imgLevel1 = IMG_Load(IMG_PATH_GAME);
 	imgCursor = IMG_Load(IMG_CURSOR);
 	imgPlayer = IMG_Load(IMG_PLAYER);
@@ -186,13 +200,12 @@ int main () {
 
 	SDL_Window *winMenu = NULL;
 	SDL_Window *winPlay = NULL;
-	SDL_Window *win = NULL;
+	//SDL_Window *win = NULL;
 
 	SDL_Init(SDL_INIT_EVERYTHING);
-	SDL_ShowCursor(SDL_DISABLE);
 
-	menu(win);
-	play(win);
+	menu(winMenu);
+	play(winPlay);
 
 	return 0;
 }
