@@ -18,34 +18,70 @@ Personnage::Personnage() {
 };
 
 //~Personnage() {};
-/*
+
 int get_orientation(){
   return _orientation;
 }
-
-int get_hp(int _hp){
+int get_hp(){
   return _hp;
 }
-
-int get_niveau(int _niveau){
+int get_niveau(){
   return _niveau;
 }
-
-int get_shield(int _shield){
+int get_shield(){
   return _shield;
 }
-
-
-void Personnage :: set_orientation(enum Orientation _orientation){
-  this->_orientation = DFLT;
+int get_jump_height(){
+  return _jump_height;
 }
-*/
-void Personnage :: set_hp(int _hp){
-  this->_hp = 100;
+int get_width(){
+  return _width;
 }
-void Personnage :: set_niveau(int _niveau){
+int get_weight(){
+  return _weight;
+}
+int get_x(){
+  return _x;
+}
+int get_y(){
+  return _y;
+}
+int get_v_x(){
+  return _v_x;
+}
+int get_v_y(){
+  return _v_y;
+}
+
+void Personnage::set_orientation(enum Orientation orientation){
+  this->_orientation = orientation;
+}
+void Personnage::set_hp(int hp){
+  this->_hp = hp;
+}
+void Personnage::set_niveau(int niveau){
   this->_niveau = 0;
 }
-void Personnage :: set_shield(int _shield){
+void Personnage::set_shield(int shield){
   this->_shield = 0;
 }
+void Personnage::set_jump_height(int jump_height){
+  this->_jump_height = jump_height;
+}
+void Personnage::set_width(int width){
+  this->_width = 1;//Remplacer la valeur
+}
+void Personnage::set_weight(int weight){
+  this->_weight = 1;//Remplacer la valeur
+}
+void Personnage::set_x(int x){
+  this->_x = 1;//Remplacer la valeur
+}
+void Personnage::set_y(int y){
+  this->_y = 1;//Remplacer la valeur
+}
+void Personnage::set_v_x(int v_x){
+  this->_v_x = 0;
+}
+void Personnage::set_v_y(int v_y){
+  this->_v_y = 0;

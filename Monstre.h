@@ -13,21 +13,35 @@ private:
   int _v_x;
   int _v_y;
   int _shield;
-  int _min_hitbox_x;
-  int _min_hitbox_y;
-  int _max_hitbox_x;
-  int _max_hitbox_y;
 
-  bool _sprite_dflt;
-  bool _sprite_r;
-  bool _sprite_l;
+  enum Orientation {
+    DFLT  = 0,
+    RIGHT = 1,
+    LEFT  = 2,
+    NUM   = 3
+  };
+  enum Orientation _orientation;
+
 
 public:
   Monstre();
-  Monstre(int _niveau,int _shield,int _x,int _y);
   void set_niveau(int _niveau);
+  void set_hp(int _hp);
   void set_shield(int _shield);
   void set_x(int _x);
   void set_y(int _y);
+  void set_v_x(int _v_x);
+  void set_v_y(int _v_y);
+  void set_orientation(int _orientation);
+
+  enum Orientation get_orientation();
+  int get_hp();
+  int get_niveau();
+  int get_shield();
+  int get_x();
+  int get_y();
+  int get_v_x();
+  int get_v_y();
+
 };
 #endif

@@ -18,10 +18,6 @@ private:
   int _shield;
   int _width;//Largeur image perso
   int _weight;//Hauteur image perso
-  int _min_hitbox_x;//Coords min X
-  int _min_hitbox_y;//Coords min Y
-  int _max_hitbox_x;//Coords max X
-  int _max_hitbox_y;//Coords max Y
 
   SDL_Surface *_sprite_dflt, *_sprite_l, *_sprite_r;
 
@@ -39,13 +35,27 @@ public:
   //~Personnage();
 
   enum Orientation get_orientation();
-  int get_hp(int _hp);
-  int get_niveau(int _niveau);
-  int get_shield(int _shield);
+  int get_hp();
+  int get_niveau();
+  int get_shield();
+  int get_jump_height();
+  int get_width();
+  int get_weight();
+  int get_x();
+  int get_y();
+  int get_v_x();
+  int get_v_y();
 
   void set_orientation(int _orientation);
   void set_hp(int _hp);
   void set_niveau(int _niveau);
   void set_shield(int _shield);
+  void set_jump_height(int _jump_height);
+  void set_width(int _width);
+  void set_weight(int _weight);
+  void set_x(int _x);
+  void set_y(int _y);
+  void set_v_x(int _v_x);
+  void set_v_y(int _v_y);
 };
 #endif
