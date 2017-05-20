@@ -1,9 +1,9 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include <cassert>
-#include "Personnage.h"
 #include "utils.h"
-#include "main.h"
+#include "Personnage.h"
+#include "Monstre.h"
 
 int menu(SDL_Window *win) {
 
@@ -113,27 +113,27 @@ int play(SDL_Window *win) {
 	cursor.h = 54;
 	rectLevel1.x = 0;
 	rectLevel1.y = 0;
-	rectPlayer.x = 640; //remplir avec x,y,w et h pour player.
-	rectPlayer.y = 652;
+	rectPlayer.x = 20;
+	rectPlayer.y = 20;
 	rectPlayer.w = 13;
 	rectPlayer.h = 34;
 
-	int tab_x[] = {1,   1280, 0,   0  };
-	int tab_y[] = {500, 0,    720, 720};
+	//int tab_x[] = {1,   1280, 0,   0  };
+	//int tab_y[] = {500, 0,    720, 720};
 
 	assert(win = SDL_CreateWindow("Weapon - game", 1280, 720, WIDTH, HEIGHT, SDL_WINDOW_OPENGL));
 	assert(psurface = SDL_GetWindowSurface(win));
 
 	SDL_ShowCursor(SDL_DISABLE);
 
-	imgLevel1 = IMG_Load(IMG_PATH_GAME);
-	imgCursor = IMG_Load(IMG_CURSOR);
-	imgPlayer = IMG_Load(IMG_PLAYER);
-	imgPlayerD = IMG_Load(IMG_PLAYERD);
-	imgPlayerG = IMG_Load(IMG_PLAYERG);
+	assert(imgLevel1 = IMG_Load(IMG_PATH_GAME));
+	assert(imgCursor = IMG_Load(IMG_CURSOR));
+	assert(imgPlayer = IMG_Load(IMG_PLAYER));
+	assert(imgPlayerD = IMG_Load(IMG_PLAYERD));
+	assert(imgPlayerG = IMG_Load(IMG_PLAYERG));
 
 	while (!quit) {
-		while (SDL_PollEvent(&e) && !quit) {
+		while (SDL_PollEvent(&e)) {
 			if((e.type == SDL_QUIT) || (e.type == SDL_KEYUP && e.key.keysym.sym == SDLK_ESCAPE)){
 				quit = true;
 			}
@@ -144,25 +144,29 @@ int play(SDL_Window *win) {
 					cursor.y = mouse_y - 26;
       }
 
-			if(e.type == SDL_KEYUP && e.key.keysym.sym == SDLK_RIGHT){
-				v_x = 2;
-				printf("RIGHT\n");
+			if(e.type == SDL_KEYDOWN && e.key.keysym.sym == SDLK_RIGHT){
+				//v_x = 2;
+				rectPlayer.x += 10;
 				SDL_BlitSurface(imgPlayerD, NULL, psurface, &rectPlayer);
 			}
 
-			if(e.type == SDL_KEYUP && e.key.keysym.sym == SDLK_LEFT){
-				v_x = -2;
+			if(e.type == SDL_KEYDOWN && e.key.keysym.sym == SDLK_LEFT){
+				//v_x = -2;
+				rectPlayer.x -= 10;
 				SDL_BlitSurface(imgPlayerG, NULL, psurface, &rectPlayer);
-				printf("LEFT\n");
 			}
 
 			if(e.type == SDL_KEYUP && e.key.keysym.sym == SDLK_UP){
-				v_y = -10;
-				printf("UP\n");
+				//v_y = -10;
+				rectPlayer.y -= 10;
 			}
 
-			printf("%d\n", rectPlayer.y);
-			v_x = v_x * 0.99;
+			if(e.type == SDL_KEYUP && e.key.keysym.sym == SDLK_DOWN){
+				//v_y = -10;
+				rectPlayer.y += 10;
+			}
+
+			//v_x = v_x * 0.99;
 
 			if (v_y < 0) {
 				v_y = v_y + 0.01;
@@ -176,7 +180,7 @@ int play(SDL_Window *win) {
 			if (rectPlayer.x >= 1252) {
 				rectPlayer.x = 1251;
 			}
-
+			/*
 			for (int i = 1; i <= 2; i = i+2) {
 				if ((tab_y[i] >= rectPlayer.y+68+2) && (tab_y[i] <= rectPlayer.y+68-2) && (tab_x[i] >= rectPlayer.x+(26/2)) && (tab_x[i+1] <= rectPlayer.x+(26/2))){
 					rectPlayer.y = tab_y[i] + 68;
@@ -185,6 +189,7 @@ int play(SDL_Window *win) {
 				rectPlayer.x = rectPlayer.x + v_x;
 				rectPlayer.y = rectPlayer.y + v_y;
 			}
+			*/
 		}
 		SDL_BlitSurface(imgLevel1, NULL, psurface, &rectLevel1);
 		SDL_BlitSurface(imgPlayer, NULL, psurface, &rectPlayer);
@@ -203,17 +208,7 @@ int main () {
 
 	SDL_Init(SDL_INIT_EVERYTHING);
 
-	menu(winMenu);
+	//menu(winMenu);
 	play(winPlay);
 	return 0;
 }
-
-/*
-
-type nom_fonction(type argument1, type argument2, ...){
-
-	// Code
-
-}
-
-*/

@@ -7,7 +7,7 @@
 
 using namespace std;
 
-
+// Constructeur
 Monstre::Monstre() {
   _niveau = 0;
   _shield =0;
@@ -17,36 +17,36 @@ Monstre::Monstre() {
   //_sprite_r;
   //_sprite_l;
 };
-int get_orientation(){
-  return _orientation;
-}
-int get_niveau(){
-  return _niveau;
-}
-int get_shield(){
-  return _shield;
-}
-int get_hp(){
+
+// GETTERS
+int Monstre::get_hp(){
   return _hp;
 }
-int get_x(){
+int Monstre::get_shield(){
+  return _shield;
+}
+int Monstre::get_niveau(){
+  return _niveau;
+}
+int Monstre::get_x(){
   return _x;
 }
-int get_y(){
+int Monstre::get_y(){
   return _y;
 }
-int get_v_x(){
+int Monstre::get_v_x(){
   return _v_x;
-}int get_v_y(){
+}
+int Monstre::get_v_y(){
   return _v_y;
 }
-
-
-void Monstre::set_hp(int hp){
-  this->_orientation = orientation;
+Orientation Monstre::get_orientation(){
+  return _orientation;
 }
-void Monstre::set_orientation(enum Orientation orientation){
-  this->_orientation = orientation;
+
+// SETTERS
+void Monstre::set_hp(int hp){
+  this->_hp = hp;
 }
 void Monstre::set_niveau(int niveau){
   this->_niveau = niveau;
@@ -65,4 +65,7 @@ void Monstre::set_v_x(int v_x){
 }
 void Monstre::set_v_y(int v_y){
   this->_v_y = v_y;
+}
+void Monstre::set_orientation(Orientation orientation){
+  this->_orientation = orientation;
 }

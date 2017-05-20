@@ -1,3 +1,24 @@
+NOTES :
+--------------------------------------------------------------------------------
+20/05/2017 - Quentin
+--------------------------------------------------------------------------------
+**ToDo :**
+  - Classe Plateforme :
+*Implémenter les fonctions dans le .cpp (Constructeur, Getters, Setters)*
+  - Classe Arme :
+*Implémenter GETTERS (.h + .cpp)*
+  - Classe Personnage :
+*Un personnage possède une Arme (à ajouter dans ses attributs + dans son constructeur)*
+
+**ToKnow :**
+  - utils.h : *enum Orientation des classes Personnage et Monstre déplacé dans utils.h*
+  - main.h  : *SUPPRIMER car inutile*
+  - utils.cpp : *Contiendra des fonctions de traitement afin de minimiser le code*
+
+  **DONE :**
+    - main.cpp : *L'astronaute apparaît et se déplace ;) (grossièrement)*
+________________________________________________________________________________
+
 #Weapon
 Personnage:
 -_joueur
@@ -20,6 +41,7 @@ Arme:
 -_dimension
 -_state(reload,tir,default)
 -_taille_chargeur
+
 
 Balle:
 -_velocité(x,y)
