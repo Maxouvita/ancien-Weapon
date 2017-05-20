@@ -118,8 +118,8 @@ int play(SDL_Window *win) {
 	rectPlayer.w = 13;
 	rectPlayer.h = 34;
 
-	int tab_x[] = {1, 1280, 0, 0};
-	int tab_y[] = {500, 0, 720, 720};
+	int tab_x[] = {1,   1280, 0,   0  };
+	int tab_y[] = {500, 0,    720, 720};
 
 	assert(win = SDL_CreateWindow("Weapon - game", 1280, 720, WIDTH, HEIGHT, SDL_WINDOW_OPENGL));
 	assert(psurface = SDL_GetWindowSurface(win));
@@ -197,7 +197,6 @@ int play(SDL_Window *win) {
 }
 
 int main () {
-
 	SDL_Window *winMenu = NULL;
 	SDL_Window *winPlay = NULL;
 	//SDL_Window *win = NULL;
@@ -206,6 +205,15 @@ int main () {
 
 	menu(winMenu);
 	play(winPlay);
-
 	return 0;
 }
+
+/*
+
+type nom_fonction(type argument1, type argument2, ...){
+
+	// Code
+
+}
+
+*/

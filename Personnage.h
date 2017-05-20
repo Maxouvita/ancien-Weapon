@@ -39,13 +39,13 @@ public:
   //~Personnage();
 
   enum Orientation get_orientation();
-  int get_hp(int _hp);
-  int get_niveau(int _niveau);
-  int get_shield(int _shield);
+  int get_hp();
+  int get_niveau();
+  int get_shield();
 
-  void set_orientation(int _orientation);
-  void set_hp(int _hp);
-  void set_niveau(int _niveau);
-  void set_shield(int _shield);
+  void set_orientation(int orientation);
+  void set_hp(int hp);
+  void set_niveau(int niveau);
+  void set_shield(int shield);
 };
 #endif
