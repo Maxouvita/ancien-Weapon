@@ -5,7 +5,6 @@
 class Monstre
 {
 private:
-
   int _x;
   int _y;
   int _hp;
@@ -22,9 +21,17 @@ private:
   };
   enum Orientation _orientation;
 
-
 public:
   Monstre();
+  enum Orientation get_orientation();
+  int get_hp();
+  int get_niveau();
+  int get_shield();
+  int get_x();
+  int get_y();
+  int get_v_x();
+  int get_v_y();
+  
   void set_niveau(int _niveau);
   void set_hp(int _hp);
   void set_shield(int _shield);
@@ -34,14 +41,6 @@ public:
   void set_v_y(int _v_y);
   void set_orientation(int _orientation);
 
-  enum Orientation get_orientation();
-  int get_hp();
-  int get_niveau();
-  int get_shield();
-  int get_x();
-  int get_y();
-  int get_v_x();
-  int get_v_y();
 
 };
 #endif

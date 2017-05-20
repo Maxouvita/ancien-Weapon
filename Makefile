@@ -9,6 +9,10 @@ LIBS = `pkg-config --libs sdl2 SDL2_ttf SDL2_image`# -lm -lpthread
 all: $(BIN)
 	./$(BIN)
 
+comp: $(BIN)
+	$(CC) $(OBJ) $(LIBS) -o $(BIN)
+	make clean
+
 clean:
 	rm -rf $(OBJ) $(BIN)
 
