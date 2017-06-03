@@ -107,7 +107,7 @@ int play(SDL_Window *win) {
 	SDL_Surface *imgLevel1 = NULL, *psurface = NULL, *imgCursor = NULL, *imgPlayer = NULL, *imgPlayerD = NULL, *imgPlayerG = NULL;
 	SDL_Rect rectLevel1, cursor, rectPlayer;
 
-	Personnage perso();
+	Personnage perso;
 
 	cursor.w = 54;
 	cursor.h = 54;
@@ -149,7 +149,7 @@ int play(SDL_Window *win) {
 					speedx += 4;
 				}
 				//rectPlayer.x += 10;
-				//perso.set_orientation(RIGHT);
+				perso.set_orientation(RIGHT);
 			}
 
 			if(e.type == SDL_KEYDOWN && e.key.keysym.sym == SDLK_LEFT){
@@ -157,7 +157,8 @@ int play(SDL_Window *win) {
 					speedx -= 4;
 				}
 				//rectPlayer.x -= 10;
-				//perso.set_orientation(LEFT);
+				perso.set_orientation(LEFT);
+
 			}
 
 			if(e.type == SDL_KEYUP && e.key.keysym.sym == SDLK_UP){
@@ -165,12 +166,12 @@ int play(SDL_Window *win) {
 					speedy = -18;
 				}
 				//rectPlayer.y -= 10;
-				//perso.set_orientation(DFLT);/* condition */
+				perso.set_orientation(DFLT);
 			}
 			if(e.type == SDL_KEYUP && e.key.keysym.sym == SDLK_DOWN){
 				speedy = speedy + 5;
 				//rectPlayer.y += 10;
-				//perso.set_orientation(DFLT);
+				perso.set_orientation(DFLT);
 			}
 
 			/*
@@ -211,8 +212,16 @@ int play(SDL_Window *win) {
 		}
 
 		SDL_BlitSurface(imgLevel1, NULL, psurface, &rectLevel1);
+
+		if (perso.get_orientation() == RIGHT) {
+			SDL_BlitSurface(imgPlayerD, NULL, psurface, &rectPlayer);
+		} else if(perso.get_orientation() == LEFT) {
+			SDL_BlitSurface(imgPlayerG, NULL, psurface, &rectPlayer);
+		} else {
+			SDL_BlitSurface(imgPlayer, NULL, psurface, &rectPlayer);
+		}
+
 		SDL_BlitSurface(imgCursor, NULL, psurface, &cursor);
-		SDL_BlitSurface(imgPlayer, NULL, psurface, &rectPlayer);
 		SDL_UpdateWindowSurface(win);
 
 	}
