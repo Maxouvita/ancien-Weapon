@@ -145,22 +145,27 @@ int play(SDL_Window *win) {
       }
 
 			if(e.type == SDL_KEYDOWN && e.key.keysym.sym == SDLK_RIGHT){
-				speedx = 13;
+				if (speedx < 18) {
+					speedx += 4;
+				}
 				//rectPlayer.x += 10;
 				//perso.set_orientation(RIGHT);
 			}
 
 			if(e.type == SDL_KEYDOWN && e.key.keysym.sym == SDLK_LEFT){
-				speedx = -13;
+				if (speedx > -18) {
+					speedx -= 4;
+				}
 				//rectPlayer.x -= 10;
 				//perso.set_orientation(LEFT);
 			}
 
 			if(e.type == SDL_KEYUP && e.key.keysym.sym == SDLK_UP){
 				if (rectPlayer.y >= 680){
-					speedy = 18;
+					speedy = -18;
 				}
-				//perso.set_orientation(DFLT);
+				//rectPlayer.y -= 10;
+				//perso.set_orientation(DFLT);/* condition */
 			}
 			if(e.type == SDL_KEYUP && e.key.keysym.sym == SDLK_DOWN){
 				speedy = speedy + 5;
@@ -180,12 +185,20 @@ int play(SDL_Window *win) {
 			*/
 		}
 
-		speedx = speedx * 0.7;
+		if (speedx > 0) {
+			speedx -= 1;
+		}
+		if (speedx < 0) {
+			speedx += 1;
+		}
+		if (speedx > -1 && speedx > 1) {
+			speedx = speedx * 0.99;
+		}
 
 		rectPlayer.x = rectPlayer.x + speedx;
 		rectPlayer.y = rectPlayer.y + speedy;
 
-		speedy++;
+		speedy += 1.15;
 
 		if (rectPlayer.y >= 680) {
 			rectPlayer.y = 680;
