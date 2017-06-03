@@ -158,10 +158,9 @@ int play(SDL_Window *win) {
 
 			if(e.type == SDL_KEYUP && e.key.keysym.sym == SDLK_UP){
 				if (rectPlayer.y >= 680){
-					speedy = -18;
+					speedy = 18;
 				}
-				//rectPlayer.y -= 10;
-				//perso.set_orientation(DFLT);/* condition */
+				//perso.set_orientation(DFLT);
 			}
 			if(e.type == SDL_KEYUP && e.key.keysym.sym == SDLK_DOWN){
 				speedy = speedy + 5;
