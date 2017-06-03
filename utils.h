@@ -17,7 +17,6 @@
 enum Orientation {
   DFLT  = 0,
   RIGHT = 1,
-  LEFT  = 2,
-  NUM   = 3
+  LEFT  = 2
 };
 #endif

@@ -147,23 +147,24 @@ int play(SDL_Window *win) {
 			if(e.type == SDL_KEYDOWN && e.key.keysym.sym == SDLK_RIGHT){
 				//v_x = 2;
 				rectPlayer.x += 10;
-				SDL_BlitSurface(imgPlayerD, NULL, psurface, &rectPlayer);
+				perso.set_orientation(RIGHT);
 			}
 
 			if(e.type == SDL_KEYDOWN && e.key.keysym.sym == SDLK_LEFT){
 				//v_x = -2;
 				rectPlayer.x -= 10;
-				SDL_BlitSurface(imgPlayerG, NULL, psurface, &rectPlayer);
+				perso.set_orientation(LEFT);
 			}
 
 			if(e.type == SDL_KEYUP && e.key.keysym.sym == SDLK_UP){
 				//v_y = -10;
 				rectPlayer.y -= 10;
+				perso.set_orientation(DFLT);
 			}
-
 			if(e.type == SDL_KEYUP && e.key.keysym.sym == SDLK_DOWN){
 				//v_y = -10;
 				rectPlayer.y += 10;
+				perso.set_orientation(DFLT);
 			}
 
 			//v_x = v_x * 0.99;

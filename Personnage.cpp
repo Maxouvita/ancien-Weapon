@@ -12,9 +12,9 @@ Personnage::Personnage() {
   _niveau = 0;
   _shield = 0;
   _orientation = DFLT;
-  _sprite_dflt = IMG_Load("TEXTURES/astro"); //texture du perso (Default);
-  _sprite_r = IMG_Load("TEXTURES/astroDroite");
-  _sprite_l = IMG_Load("TEXTURES/astroGauche");
+  _sprite_dflt = IMG_Load("TEXTURES/astro.png"); //texture du perso (Default);
+  _sprite_r = IMG_Load("TEXTURES/astroDroite.png");
+  _sprite_l = IMG_Load("TEXTURES/astroGauche.png");
 };
 //~Personnage() {};
 
