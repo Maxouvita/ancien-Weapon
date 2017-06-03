@@ -160,17 +160,37 @@ int play(SDL_Window *win) {
 				//perso.set_orientation(LEFT);
 			}
 
-			if(e.type == SDL_KEYUP && e.key.keysym.sym == SDLK_UP){
+			if(e.type == SDL_KEYDOWN && e.key.keysym.sym == SDLK_UP){
 				if (rectPlayer.y >= 680){
 					speedy = -18;
 				}
 				//rectPlayer.y -= 10;
-				//perso.set_orientation(DFLT);/* condition */
+				//perso.set_orientation(DFLT);
 			}
-			if(e.type == SDL_KEYUP && e.key.keysym.sym == SDLK_DOWN){
-				speedy = speedy + 5;
+			if(e.type == SDL_KEYDOWN && e.key.keysym.sym == SDLK_DOWN){
+				speedy += 5;
 				//rectPlayer.y += 10;
 				//perso.set_orientation(DFLT);
+			}
+
+			if (e.type == SDL_KEYDOWN && e.key.keysym.sym == SDLK_RIGHT &&
+				  e.type == SDL_KEYDOWN   && e.key.keysym.sym == SDLK_UP)     {
+						if (rectPlayer.y >= 680){
+							speedy = -18;
+						}
+						if (speedx < 18) {
+							speedx += 4;
+						}
+			}
+
+			if (e.type == SDL_KEYDOWN && e.key.keysym.sym == SDLK_LEFT &&
+				  e.type == SDL_KEYDOWN   && e.key.keysym.sym == SDLK_UP)     {
+						if (rectPlayer.y >= 680){
+							speedy = -18;
+						}
+						if (speedx > -18) {
+							speedx -= 4;
+						}
 			}
 
 			/*
