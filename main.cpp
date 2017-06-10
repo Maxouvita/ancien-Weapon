@@ -101,13 +101,14 @@ int menu(SDL_Window *win) {
 
 int play(SDL_Window *win) {
 
+	float speedBx,speedBy;
 	float speedx, speedy;
 	int mouse_x, mouse_y;
 	bool quit = false;
 
 	SDL_Event e;
-	SDL_Surface *imgLevel1 = NULL, *psurface = NULL, *imgCursor = NULL, *imgPlayer = NULL, *imgPlayerD = NULL, *imgPlayerG = NULL;
-	SDL_Rect rectLevel1, cursor, rectPlayer;
+	SDL_Surface *imgLevel1 = NULL, *psurface = NULL, *imgCursor = NULL, *imgPlayer = NULL, *imgPlayerD = NULL, *imgPlayerG = NULL, *imgBalle = NULL;
+	SDL_Rect rectLevel1, cursor, rectPlayer, rectBalle;
 
 	Personnage perso;
 
@@ -119,6 +120,11 @@ int play(SDL_Window *win) {
 	rectPlayer.y = 20;
 	rectPlayer.w = 13;
 	rectPlayer.h = 34;
+	rectBalle.x = rectPlayer.x; // Balle.png
+	rectBalle.y = rectPlayer.y;
+	rectBalle.w = 5;
+	rectBalle.h = 3;
+	int coef = 0;
 
 	//int tab_x[] = {1,   1280, 0,   0  };
 	//int tab_y[] = {500, 0,    720, 720};
@@ -133,6 +139,7 @@ int play(SDL_Window *win) {
 	assert(imgPlayer = IMG_Load(IMG_PLAYER));
 	assert(imgPlayerD = IMG_Load(IMG_PLAYERD));
 	assert(imgPlayerG = IMG_Load(IMG_PLAYERG));
+	imgBalle = IMG_Load("TEXTURES/Balle.png");
 
 	Event event;
 	event.repeat = false;
@@ -149,7 +156,6 @@ int play(SDL_Window *win) {
 				if (speedx < 18) {
 					speedx += 4;
 				}
-				//rectPlayer.x += 10;
 				perso.set_orientation(RIGHT);
 			}
 
@@ -157,7 +163,6 @@ int play(SDL_Window *win) {
 				if (speedx > -18) {
 					speedx -= 4;
 				}
-				//rectPlayer.x -= 10;
 				perso.set_orientation(LEFT);
 
 			}
@@ -166,12 +171,10 @@ int play(SDL_Window *win) {
 				if (rectPlayer.y >= 680){
 					speedy = -18;
 				}
-				//rectPlayer.y -= 10;
 				perso.set_orientation(DFLT);
 			}
 			if(event.key[Event::DOWN]){
 				speedy += 5;
-				//rectPlayer.y += 10;
 				perso.set_orientation(DFLT);
 			}
 
@@ -231,6 +234,34 @@ int play(SDL_Window *win) {
 		if (rectPlayer.x >= 1252) {
 			rectPlayer.x = 1251;
 		}
+		if (event.mouse.l) {
+			printf("%d\n", rectPlayer.x);
+			printf("%d\n", rectPlayer.y);
+			printf("%d\n", cursor.x);
+			printf("%d\n", cursor.y);
+			printf(" \n");
+			coef = 1 / (sqrt((rectPlayer.x - cursor.x)^2 + (rectPlayer.y - cursor.y)^2));
+			speedBx = coef*(cursor.x - rectPlayer.x);
+			speedBy = coef*(cursor.y + rectPlayer.y);
+			printf("%d\n", speedBx);
+			printf("%d\n", speedBy);
+		}
+		if (event.mouse.r) {
+			rectBalle.x = rectPlayer.x;
+			rectBalle.y = rectPlayer.y;
+			speedBx = 0;
+			speedBx = 0;
+		}
+
+		if (rectBalle.x >= 1280 || rectBalle.x <= 0 || rectBalle.y <= 720 || rectBalle.y >= 0) {
+			rectBalle.x = rectPlayer.x;
+			rectBalle.y = rectPlayer.y;
+			speedBx = 0;
+			speedBx = 0;
+		}
+
+		rectBalle.x = rectBalle.x + speedBx;
+		rectBalle.y = rectBalle.y + speedBy;
 
 		SDL_BlitSurface(imgLevel1, NULL, psurface, &rectLevel1);
 
@@ -242,6 +273,7 @@ int play(SDL_Window *win) {
 			SDL_BlitSurface(imgPlayer, NULL, psurface, &rectPlayer);
 		}
 
+		SDL_BlitSurface(imgBalle, NULL, psurface, &rectBalle);
 		SDL_BlitSurface(imgCursor, NULL, psurface, &cursor);
 		SDL_UpdateWindowSurface(win);
 

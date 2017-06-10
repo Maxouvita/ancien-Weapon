@@ -25,22 +25,22 @@ Arme::Arme(string name, int rld_time, int cadence, int orientation, int state, i
 }
 
 // GETTERS à faire
-int Monstre::get_name(){
+string Arme::get_name(){
   return _name;
 }
-int Monstre::get_rld_time(){
+int Arme::get_rld_time(){
   return _rld_time;
 }
-int Monstre::get_cadence(){
+int Arme::get_cadence(){
   return _cadence;
 }
-int Monstre::get_orientation(){
+int Arme::get_orientation(){
   return _orientation;
 }
-int Monstre::get_state(){
+int Arme::get_state(){
   return _state;
 }
-int Monstre::get_nb_balle(){
+int Arme::get_nb_balle(){
   return _nb_balle;
 }
 

@@ -20,7 +20,7 @@ public:
   Arme();
   Arme(string _name, int _rld_time, int _cadence, int _orientation, int _state, int _nb_balle);
   // GETTERS
-  int get_name();
+  string get_name();
   int get_rld_time();
   int get_cadence();
   int get_orientation();
