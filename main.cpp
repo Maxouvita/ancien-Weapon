@@ -51,6 +51,7 @@ int menu(SDL_Window *win) {
 	imgCursor = IMG_Load(IMG_CURSOR);
 	imgLogo = IMG_Load(IMG_LOGO);
 
+
 	SDL_Event e;
 	bool quit = false;
 
@@ -133,19 +134,18 @@ int play(SDL_Window *win) {
 	assert(imgPlayerD = IMG_Load(IMG_PLAYERD));
 	assert(imgPlayerG = IMG_Load(IMG_PLAYERG));
 
+	Event event;
+	event.repeat = false;
 	while (!quit) {
-		while (SDL_PollEvent(&e)) {
-			if((e.type == SDL_QUIT) || (e.type == SDL_KEYUP && e.key.keysym.sym == SDLK_ESCAPE)){
+		if (event.update()) {
+			if(event.quit || event.capture(Event::ESCAPE)){
 				quit = true;
 			}
 
-      if(e.type == SDL_MOUSEMOTION){
-          SDL_GetMouseState(&mouse_x,&mouse_y);
-					cursor.x = mouse_x - 26;
-					cursor.y = mouse_y - 26;
-      }
+					cursor.x = event.mouse.x - 26;
+					cursor.y = event.mouse.y - 26;
 
-			if(e.type == SDL_KEYDOWN && e.key.keysym.sym == SDLK_RIGHT){
+			if(event.key[Event::RIGHT]){
 				if (speedx < 18) {
 					speedx += 4;
 				}
@@ -153,7 +153,7 @@ int play(SDL_Window *win) {
 				perso.set_orientation(RIGHT);
 			}
 
-			if(e.type == SDL_KEYDOWN && e.key.keysym.sym == SDLK_LEFT){
+			if(event.key[Event::LEFT]){
 				if (speedx > -18) {
 					speedx -= 4;
 				}
@@ -162,14 +162,14 @@ int play(SDL_Window *win) {
 
 			}
 
-			if(e.type == SDL_KEYDOWN && e.key.keysym.sym == SDLK_UP){
+			if(event.key[Event::UP]){
 				if (rectPlayer.y >= 680){
 					speedy = -18;
 				}
 				//rectPlayer.y -= 10;
 				perso.set_orientation(DFLT);
 			}
-			if(e.type == SDL_KEYDOWN && e.key.keysym.sym == SDLK_DOWN){
+			if(event.key[Event::DOWN]){
 				speedy += 5;
 				//rectPlayer.y += 10;
 				perso.set_orientation(DFLT);
