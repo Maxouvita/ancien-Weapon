@@ -2,6 +2,7 @@
 #include <SDL2/SDL_image.h>
 #include <cassert>
 #include "utils.h"
+#include "Event.h"
 #include "Personnage.h"
 #include "Monstre.h"
 
