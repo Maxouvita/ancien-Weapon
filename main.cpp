@@ -1,10 +1,13 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include <cassert>
+#include <iostream>
 #include "utils.h"
 #include "Event.h"
 #include "Personnage.h"
 #include "Monstre.h"
+
+using namespace std;
 
 int menu(SDL_Window *win) {
 
@@ -101,10 +104,11 @@ int menu(SDL_Window *win) {
 
 int play(SDL_Window *win) {
 
-	float speedBx,speedBy;
-	float speedx, speedy;
+	double speedBx,speedBy;
+	double speedx, speedy;
 	int mouse_x, mouse_y;
 	bool quit = false;
+	double coef = 0;
 
 	SDL_Event e;
 	SDL_Surface *imgLevel1 = NULL, *psurface = NULL, *imgCursor = NULL, *imgPlayer = NULL, *imgPlayerD = NULL, *imgPlayerG = NULL, *imgBalle = NULL;
@@ -124,10 +128,8 @@ int play(SDL_Window *win) {
 	rectBalle.y = rectPlayer.y;
 	rectBalle.w = 5;
 	rectBalle.h = 3;
-	int coef = 0;
 
-	//int tab_x[] = {1,   1280, 0,   0  };
-	//int tab_y[] = {500, 0,    720, 720};
+
 
 	assert(win = SDL_CreateWindow("Weapon - game", 1280, 720, WIDTH, HEIGHT, SDL_WINDOW_OPENGL));
 	assert(psurface = SDL_GetWindowSurface(win));
@@ -198,16 +200,6 @@ int play(SDL_Window *win) {
 						}
 			}
 
-			/*
-			for (int i = 1; i <= 2; i = i+2) {
-				if ((tab_y[i] >= rectPlayer.y+68+2) && (tab_y[i] <= rectPlayer.y+68-2) && (tab_x[i] >= rectPlayer.x+(26/2)) && (tab_x[i+1] <= rectPlayer.x+(26/2))){
-					rectPlayer.y = tab_y[i] + 68;
-					speedy = 0;
-				}
-				rectPlayer.x = rectPlayer.x + speedx;
-				rectPlayer.y = rectPlayer.y + speedy;
-			}
-			*/
 		}
 
 		if (speedx > 0) {
@@ -235,30 +227,32 @@ int play(SDL_Window *win) {
 			rectPlayer.x = 1251;
 		}
 		if (event.mouse.l) {
-			printf("%d\n", rectPlayer.x);
-			printf("%d\n", rectPlayer.y);
-			printf("%d\n", cursor.x);
-			printf("%d\n", cursor.y);
-			printf(" \n");
-			coef = 1 / (sqrt((rectPlayer.x - cursor.x)^2 + (rectPlayer.y - cursor.y)^2));
-			speedBx = coef*(cursor.x - rectPlayer.x);
-			speedBy = coef*(cursor.y + rectPlayer.y);
-			printf("%d\n", speedBx);
-			printf("%d\n", speedBy);
+			rectBalle.x = rectPlayer.x;
+			rectBalle.y = rectPlayer.y;
+			printf("rectPlayer.x : %d\n", rectPlayer.x);
+			printf("rectPlayer.y : %d\n", rectPlayer.y);
+			printf("cursor.x : %d\n", event.mouse.x);
+			printf("cursor.y : %d\n", event.mouse.y);
+			coef = 5 / sqrt(pow(rectPlayer.x - event.mouse.y, 2) + pow(rectPlayer.y - event.mouse.y, 2));
+			printf("coef : %lf\n", coef);
+			speedBx = (event.mouse.x - rectPlayer.x) * coef;
+			speedBy = (event.mouse.y - rectPlayer.y) * coef;
+			printf("speedBx: %lf\n", speedBx);
+			printf("speedBy: %lf\n", speedBy);
 		}
 		if (event.mouse.r) {
+			speedBx = 0;
+			speedBy = 0;
 			rectBalle.x = rectPlayer.x;
 			rectBalle.y = rectPlayer.y;
-			speedBx = 0;
-			speedBx = 0;
 		}
 
-		if (rectBalle.x >= 1280 || rectBalle.x <= 0 || rectBalle.y <= 720 || rectBalle.y >= 0) {
+		/*if (rectBalle.x >= 1280 || rectBalle.x <= 0 || rectBalle.y <= 720 || rectBalle.y >= 0) {
 			rectBalle.x = rectPlayer.x;
 			rectBalle.y = rectPlayer.y;
 			speedBx = 0;
 			speedBx = 0;
-		}
+		}*/
 
 		rectBalle.x = rectBalle.x + speedBx;
 		rectBalle.y = rectBalle.y + speedBy;
