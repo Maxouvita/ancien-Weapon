@@ -1,6 +1,5 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
-#include <SDL/SDL_rotozoom.h>
 #include <cassert>
 #include <iostream>
 #include "utils.h"
@@ -112,7 +111,7 @@ int play(SDL_Window *win) {
 	double coef = 0;
 
 	SDL_Event e;
-	SDL_Surface *imgLevel1 = NULL, *psurface = NULL, *imgCursor = NULL, *imgPlayer = NULL, *imgPlayerD = NULL, *imgPlayerG = NULL, *imgBalle = NULL, *rotation = NULL;
+	SDL_Surface *imgLevel1 = NULL, *psurface = NULL, *imgCursor = NULL, *imgPlayer = NULL, *imgPlayerD = NULL, *imgPlayerG = NULL, *imgBalle = NULL;
 	SDL_Rect rectLevel1, cursor, rectPlayer, rectBalle;
 
 	Personnage perso;
@@ -225,44 +224,35 @@ int play(SDL_Window *win) {
 			rectPlayer.x = 2;
 		}
 		if (rectPlayer.x >= 1252) {
-			rectPlayer.x = 1251;		if (event.mouse.l) {
-			rectBalle.x = rectPlayer.x;
-			rectBalle.y = rectPlayer.y;
-			printf("rectPlayer.x : %d\n", rectPlayer.x);
-			printf("rectPlayer.y : %d\n", rectPlayer.y);
-			printf("cursor.x : %d\n", event.mouse.x);
-			printf("cursor.y : %d\n", event.mouse.y);
-			coef = 5 / sqrt(pow(rectPlayer.x - event.mouse.y, 2) + pow(rectPlayer.y - event.mouse.y, 2));
-			printf("coef : %lf\n", coef);
-			speedBx = (event.mouse.x - rectPlayer.x) * coef;
-			speedBy = (event.mouse.y - rectPlayer.y) * coef;
-			printf("speedBx: %lf\n", speedBx);
-			printf("speedBy: %lf\n", speedBy);
+			rectPlayer.x = 1251;
 		}
 		if (event.mouse.l) {
 			rectBalle.x = rectPlayer.x;
 			rectBalle.y = rectPlayer.y;
-			speedBx = ((event.mouse.x) - rectPlayer.x)/5;
-			speedBy = ((event.mouse.y) - rectPlayer.y)/5;
+			speedBx = (event.mouse.x - rectPlayer.x)/5;
+			speedBy = (event.mouse.y - rectPlayer.y)/5;
 			if (speedBx > 0) {
-				if (speedBx > 56 || speedBx < 56){
-					speedBx = (56/speedBx)*speedBx;
+				if (speedBx > 57 || speedBx < 56){
 					speedBy = (56/speedBx)*speedBy;
+					speedBx = (56/speedBx)*speedBx;
+				}
+				if (speedBy > 31 || speedBy < 30) {
+					speedBx = (30/speedBy)*speedBx;
+					speedBy = (30/speedBy)*speedBy;
 				}
 			}
 			if (speedBx < 0) {
-				if (speedBx > -56 || speedBx < -56){
-					speedBx = (56/speedBx)*speedBx;
+				if (speedBx > -56 || speedBx < -57){
 					speedBy = (56/speedBx)*speedBy;
+					speedBx = (56/speedBx)*speedBx;
+				}
+				if (speedBy > -30 || speedBy < -31) {
+					speedBx = (30/speedBy)*speedBx;
+					speedBy = (30/speedBy)*speedBy;
 				}
 			}
 			printf("speedBx: %lf\n", speedBx);
-			printf("speedBy: %lf\n", speedBy);-rectplayer.X),2);
-			BC = pow(sqrt(cursor.y-rectplayer.X
-			int X = pow(sqrt(cursor.x-rectplayer.x),2);
-			int Y = pow(sqrt(cursor.y-rectplayer.y),2);
-			double angle = X/Y;
-			rotation = rotozoomSurface(imgBalle, angle, 1.0, 1);
+			printf("speedBy: %lf\n", speedBy);
 		}
 		if (event.mouse.r) {
 			speedBx = 0;
