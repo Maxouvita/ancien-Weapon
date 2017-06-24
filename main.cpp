@@ -231,26 +231,7 @@ int play(SDL_Window *win) {
 			rectBalle.y = rectPlayer.y;
 			speedBx = (event.mouse.x - rectPlayer.x)/5;
 			speedBy = (event.mouse.y - rectPlayer.y)/5;
-			if (speedBx > 0) {
-				if (speedBx > 57 || speedBx < 56){
-					speedBy = (56/speedBx)*speedBy;
-					speedBx = (56/speedBx)*speedBx;
-				}
-				if (speedBy > 31 || speedBy < 30) {
-					speedBx = (30/speedBy)*speedBx;
-					speedBy = (30/speedBy)*speedBy;
-				}
-			}
-			if (speedBx < 0) {
-				if (speedBx > -56 || speedBx < -57){
-					speedBy = (56/speedBx)*speedBy;
-					speedBx = (56/speedBx)*speedBx;
-				}
-				if (speedBy > -30 || speedBy < -31) {
-					speedBx = (30/speedBy)*speedBx;
-					speedBy = (30/speedBy)*speedBy;
-				}
-			}
+			
 			printf("speedBx: %lf\n", speedBx);
 			printf("speedBy: %lf\n", speedBy);
 		}
