@@ -229,14 +229,20 @@ int play(SDL_Window *win) {
 		if (event.mouse.l) {
 			rectBalle.x = rectPlayer.x;
 			rectBalle.y = rectPlayer.y;
-			printf("rectPlayer.x : %d\n", rectPlayer.x);
-			printf("rectPlayer.y : %d\n", rectPlayer.y);
-			printf("cursor.x : %d\n", event.mouse.x);
-			printf("cursor.y : %d\n", event.mouse.y);
-			coef = 5 / sqrt(pow(rectPlayer.x - event.mouse.y, 2) + pow(rectPlayer.y - event.mouse.y, 2));
-			printf("coef : %lf\n", coef);
-			speedBx = (event.mouse.x - rectPlayer.x) * coef;
-			speedBy = (event.mouse.y - rectPlayer.y) * coef;
+			speedBx = ((event.mouse.x) - rectPlayer.x)/5;
+			speedBy = ((event.mouse.y) - rectPlayer.y)/5;
+			if (speedBx > 0) {
+				if (speedBx > 56 || speedBx < 56){
+					speedBx = (56/speedBx)*speedBx;
+					speedBy = (56/speedBx)*speedBy;
+				}
+			}
+			if (speedBx < 0) {
+				if (speedBx > -56 || speedBx < -56){
+					speedBx = (56/speedBx)*speedBx;
+					speedBy = (56/speedBx)*speedBy;
+				}
+			}
 			printf("speedBx: %lf\n", speedBx);
 			printf("speedBy: %lf\n", speedBy);
 		}
