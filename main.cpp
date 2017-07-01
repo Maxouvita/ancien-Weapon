@@ -230,9 +230,8 @@ int play(SDL_Window *win) {
 		if (event.mouse.l) {
 			rectBalle.x = rectPlayer.x;
 			rectBalle.y = rectPlayer.y;
-			speedBx = (event.mouse.x - rectPlayer.x)/5;
-			speedBy = (event.mouse.y - rectPlayer.y)/5;
-
+			speedBx = (event.mouse.x - rectPlayer.x);
+			speedBy = (event.mouse.y - rectPlayer.y);
 			printf("speedBx: %lf\n", speedBx);
 			printf("speedBy: %lf\n", speedBy);
 		}
