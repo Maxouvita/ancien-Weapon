@@ -104,11 +104,9 @@ int menu(SDL_Window *win) {
 
 int play(SDL_Window *win) {
 
-	double speedBx,speedBy;
+	long speedBx,speedBy = 0;
 	double speedx, speedy;
-	int mouse_x, mouse_y;
 	bool quit = false;
-	double coef = 0;
 
 	SDL_Event e;
 	SDL_Surface *imgLevel1 = NULL, *psurface = NULL, *imgCursor = NULL, *imgPlayer = NULL, *imgPlayerD = NULL, *imgPlayerG = NULL, *imgBalle = NULL;
@@ -124,8 +122,8 @@ int play(SDL_Window *win) {
 	rectPlayer.y = 20;
 	rectPlayer.w = 13;
 	rectPlayer.h = 34;
-	rectBalle.x = rectPlayer.x; // Balle.png
-	rectBalle.y = rectPlayer.y;
+	rectBalle.x = 0;
+	rectBalle.y = 5;
 	rectBalle.w = 5;
 	rectBalle.h = 3;
 
@@ -151,8 +149,8 @@ int play(SDL_Window *win) {
 				quit = true;
 			}
 
-					cursor.x = event.mouse.x - 26;
-					cursor.y = event.mouse.y - 26;
+					cursor.x = event.mouse.x - 28;
+					cursor.y = event.mouse.y - 28;
 
 			if(event.key[Event::RIGHT]){
 				if (speedx < 18) {
@@ -241,13 +239,6 @@ int play(SDL_Window *win) {
 			rectBalle.x = rectPlayer.x;
 			rectBalle.y = rectPlayer.y;
 		}
-
-		/*if (rectBalle.x >= 1280 || rectBalle.x <= 0 || rectBalle.y <= 720 || rectBalle.y >= 0) {
-			rectBalle.x = rectPlayer.x;
-			rectBalle.y = rectPlayer.y;
-			speedBx = 0;
-			speedBx = 0;
-		}*/
 
 		printf("%lf\n", (sqrt((speedBx*speedBx) + (speedBy*speedBy))));
 		if (speedBx != 0 && speedBy != 0) {
