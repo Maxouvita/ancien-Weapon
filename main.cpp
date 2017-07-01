@@ -104,7 +104,7 @@ int menu(SDL_Window *win) {
 
 int play(SDL_Window *win) {
 
-	long speedBx,speedBy = 0;
+	double speedBx,speedBy = 0;
 	double speedx, speedy;
 	bool quit = false;
 
@@ -149,8 +149,8 @@ int play(SDL_Window *win) {
 				quit = true;
 			}
 
-					cursor.x = event.mouse.x - 28;
-					cursor.y = event.mouse.y - 28;
+					cursor.x = event.mouse.x - 26;
+					cursor.y = event.mouse.y - 26;
 
 			if(event.key[Event::RIGHT]){
 				if (speedx < 18) {
@@ -226,18 +226,18 @@ int play(SDL_Window *win) {
 			rectPlayer.x = 1251;
 		}
 		if (event.mouse.l) {
-			rectBalle.x = rectPlayer.x;
-			rectBalle.y = rectPlayer.y;
-			speedBx = (event.mouse.x - rectPlayer.x);
-			speedBy = (event.mouse.y - rectPlayer.y);
+			rectBalle.x = rectPlayer.x+5;
+			rectBalle.y = rectPlayer.y+10;
+			speedBx = (event.mouse.x - rectPlayer.x+5);
+			speedBy = (event.mouse.y - rectPlayer.y+10);
 			printf("speedBx: %lf\n", speedBx);
 			printf("speedBy: %lf\n", speedBy);
 		}
 		if (event.mouse.r) {
 			speedBx = 0;
 			speedBy = 0;
-			rectBalle.x = rectPlayer.x;
-			rectBalle.y = rectPlayer.y;
+			rectBalle.x = rectPlayer.x+5;
+			rectBalle.y = rectPlayer.y+10;
 		}
 
 		printf("%lf\n", (sqrt((speedBx*speedBx) + (speedBy*speedBy))));
